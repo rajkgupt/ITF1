@@ -1,4 +1,4 @@
-package com.journaldev.sparkdemo.spark;
+package com.anz.itf.validation;
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
  * contributor license agreements.  See the NOTICE file distributed with
@@ -17,7 +17,7 @@ package com.journaldev.sparkdemo.spark;
  */
 
 
-import com.journaldev.sparkdemo.json.ParseOptions;
+import com.anz.itf.utils.ParseOptions;
 import org.apache.commons.cli.Options;
 import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.Row;
@@ -25,7 +25,6 @@ import org.apache.spark.sql.SparkSession;
 import org.apache.spark.sql.types.StructType;
 import org.apache.spark.sql.types.StructField;
 import org.apache.spark.sql.types.DataTypes;
-import org.apache.spark.sql.types.ArrayType;
 import org.apache.spark.sql.types.Metadata;
 
 
@@ -109,25 +108,6 @@ public final class SparkValidationWithSchema {
 
 
 
-/*
-        StructType schema1 = new StructType(new StructField[]{
-                new StructField("id"     ,DataTypes.IntegerType ,true, Metadata.empty()),
-                new StructField("name"   ,DataTypes.StringType  ,true, Metadata.empty()),
-                new StructField("population"     ,DataTypes.IntegerType  ,true, Metadata.empty()),
-                new StructField("establishedDate"   ,DataTypes.DateType  ,true, Metadata.empty()),
-                new StructField("_corrupt_record"   ,DataTypes.StringType  ,false, Metadata.empty())
-        });
-
-
-        Dataset<Row> ausSampleDf1  = spark.read().format("csv")
-            .option("header", "true")
-            .schema(schema1)
-            //.load("C:\\raj\\Spark\\solution\\scenarios\\sample\\aus_sample.csv");
-            //.load("C:\\raj\\Spark\\solution\\scenarios\\sample\\aus_sample_missing.csv");
-            .load("C:\\raj\\Spark\\solution\\scenarios\\sample\\aus_sample_extra_column.csv");
-
-        ausSampleDf1.show();
-*/
 
 
         spark.stop();

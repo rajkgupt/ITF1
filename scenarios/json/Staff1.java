@@ -1,4 +1,4 @@
-package com.journaldev.sparkdemo.json;
+package com.anz.itf.utils.json;
 
 
 import java.math.BigDecimal;

@@ -1,4 +1,4 @@
-package com.journaldev.sparkdemo.json;
+package com.anz.itf.utils.json;
 
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;

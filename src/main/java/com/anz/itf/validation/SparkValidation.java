@@ -1,4 +1,4 @@
-package com.journaldev.sparkdemo.spark;
+package com.anz.itf.validation;
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
  * contributor license agreements.  See the NOTICE file distributed with
@@ -17,28 +17,29 @@ package com.journaldev.sparkdemo.spark;
  */
 
 
-
-import org.apache.spark.sql.Row;
+import com.anz.itf.utils.ParseOptions;
+import org.apache.commons.cli.Options;
 import org.apache.spark.sql.Dataset;
-import org.apache.spark.sql.SaveMode;
-import scala.Tuple2;
-
-import org.apache.spark.api.java.JavaPairRDD;
-import org.apache.spark.api.java.JavaRDD;
+import org.apache.spark.sql.Row;
 import org.apache.spark.sql.SparkSession;
 
-import java.util.Arrays;
-import java.util.List;
+import java.util.HashMap;
 import java.util.regex.Pattern;
 
-public final class WordCounter {
+
+public final class SparkValidation {
     private static final Pattern SPACE = Pattern.compile(" ");
 
     public static void main(String[] args) throws Exception {
 
-        if (args.length < 1) {
-            System.err.println("Usage: JavaWordCount <file>");
+        Options options = ParseOptions.OPTIONS;
+        HashMap<String, String > inputArgsMap = null;
+
+        if (args.length < 4) {
+            ParseOptions.printHelp(options);
             System.exit(1);
+        } else {
+            inputArgsMap = ParseOptions.parseOptions(options, args);
         }
 
         SparkSession spark = SparkSession
@@ -47,24 +48,22 @@ public final class WordCounter {
                 .appName("JavaWordCount")
                 .getOrCreate();
 
-        JavaRDD<String> lines = spark.read().textFile(args[0]).javaRDD();
-
-        JavaRDD<String> words = lines.flatMap(s -> Arrays.asList(SPACE.split(s)).iterator());
-
-        JavaPairRDD<String, Integer> ones = words.mapToPair(s -> new Tuple2<>(s, 1));
-
-        JavaPairRDD<String, Integer> counts = ones.reduceByKey((i1, i2) -> i1 + i2);
-
-        List<Tuple2<String, Integer>> output = counts.collect();
-        for (Tuple2<?,?> tuple : output) {
-            System.out.println(tuple._1() + ": " + tuple._2());
-        }
-
         Dataset<Row> df = spark.read().format("csv")
                 .option("sep",",")
                 .option("inferSchema","true")
                 .option("header","true")
                 .load("cars.csv");
+
+        String schema = inputArgsMap.get("schema");
+        String data = inputArgsMap.get("data");
+        String tag = inputArgsMap.get("tag");
+        String output = inputArgsMap.get("output");
+
+
+
+
+
+
 
         //df.write().mode(SaveMode.Overwrite).csv("newcars.csv");
 
